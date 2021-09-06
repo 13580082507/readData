@@ -1,0 +1,121 @@
+using System;
+using System.Collections;
+using System.Data;
+using System.Data.OleDb;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace practiceReadExcel
+{
+    class Program
+    {
+
+        private static int count = 0;
+        // private static DataTable table;
+        static void Main(string[] args)
+        {
+
+            string excelPath1 = "C:/Users/DELL/Desktop/readData/readExcel/practiceReadExcel/zuobaio.xls";
+            //string excelPath1 = "C:/Users/DELL/Desktop/readData/readExcel/practiceReadExcel/zuobiao.xlsx";
+            
+            string excelPath = "C:/Users/DELL/Desktop/readData/readExcel/practiceReadExcel/zb.xls";
+
+            string strConn;
+
+            if (excelPath1 == ".xls")
+            {
+                strConn = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + excelPath1 + ";" + ";Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1\"";
+            }
+            else
+            {
+                strConn = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + excelPath1 + ";" + ";Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1\"";
+            }
+
+
+            OleDbConnection connection = new OleDbConnection(strConn);
+                try { 
+                connection.Open();
+                }
+                catch (Exception ex)
+                {
+                    Console.Write(ex);
+                }
+            string sql = "select * from[Sheet1$]";
+            OleDbDataAdapter adapter = new OleDbDataAdapter(sql, connection);
+
+            DataSet dataSet = new DataSet();
+            adapter.Fill(dataSet);
+
+            DataTableCollection dataTableCollection = dataSet.Tables;
+            DataTable table = dataTableCollection[0];
+           
+            /*table = dataTableCollection[0];
+            DataRow row;
+            row = table.Rows[0];
+            Console.Write("(" + row[0] + "," + row[1] + ")");
+                Console.WriteLine();
+                Console.Write(count);
+                count++;*/
+
+               // Console.ReadKey();
+
+            
+            
+            //这里将table的每一列放进一个列的集合里面
+            DataRowCollection dataRowCollection = table.Rows;
+
+            //DataRow表示table中的一行数据
+            //
+            foreach (DataRow row in dataRowCollection)
+            {
+                Console.Write("(" + row[0] + "," + row[1] + ")");
+                Console.Write(row[0]);
+                Console.WriteLine();
+            }
+            Console.ReadKey();
+            
+            /*DataRow row;
+            for (int i = 0; i < 1; i++)
+            {
+                row = table.Rows[i];
+                Console.Write(i + ":" + "(" + row[0] + "," + row[1] + ")");
+                Console.WriteLine();
+            }
+            Console.ReadKey();
+
+            //转换成一行一行读    
+
+            /*Thread sendThread = new Thread(ReadData);
+            //把线程设置为前台线程，不然Main退出了线程就会死亡
+            sendThread.IsBackground = false;
+            sendThread.Start();                      
+        }
+
+        /*private static void ReadData()
+        {
+
+            DataRow row;
+            //DataRow row1 = row;
+            while (count < 1000) { 
+            try
+            {
+                    row = table.Rows[0];             
+                Console.Write(count + ":" + "(" + row[0] + "," + row[1] + ")");
+                //Console.Write(row[0]，);
+                count = count + 1;
+
+                Thread.Sleep(1000);
+                Console.WriteLine();
+                    //Console.Write("你好！");
+                }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+            }
+            }
+        }*/
+        }
+    }
+}

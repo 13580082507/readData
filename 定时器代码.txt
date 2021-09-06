@@ -1,0 +1,7 @@
+//DataReceived 方法,当串口缓冲区有数据时执行该方法
+//接受数据线程
+MySerialPort.DataReceived += new SerialDataReceivedEventHandler(SerDataReceive);
+
+定时器
+
+线程

@@ -1,0 +1,11 @@
+function  M= WriteInExcel(x,y)
+    x=rand(1)*10;
+    y=rand(1);
+    X={x};
+    Y={y};
+    result_table = table(X,Y);
+    %writetable(result_table,'x_y.csv')
+    writetable(result_table,'x_y.xls')
+end
+
+
